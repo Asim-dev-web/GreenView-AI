@@ -1,0 +1,11 @@
+streamlit
+leafmap
+torch
+opencv-python-headless
+numpy
+segmentation-models-pytorch
+Pillow
+folium
+albumentations
+matplotlib
+tqdm
