@@ -12,7 +12,7 @@ Unlike traditional methods that rely on Infrared/NDVI data (which is often low-r
 
 ## **Try it Live**
 No installation needed. Run the model in your browser here:
-### [👉 Launch GreenView AI on Hugging Face](https://huggingface.co/spaces/As-im/GreenView-AI)
+### [Launch GreenView AI on Hugging Face](https://huggingface.co/spaces/As-im/GreenView-AI)
 
 ---
 
