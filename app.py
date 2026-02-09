@@ -49,7 +49,7 @@ components.html(
 @st.cache_resource
 def load_engine():
     model = smp.UnetPlusPlus("resnet34", encoder_weights=None, in_channels=3, classes=1)
-    model.load_state_dict(torch.load("models/final_model.pth", map_location="cpu"))
+    model.load_state_dict(torch.load("summit_final_model.pth", map_location="cpu"))
     model.eval()
     return model
 
@@ -208,18 +208,27 @@ with col_right:
             model = load_engine() 
             with st.spinner("Analyzing vegetation density..."):
                 img = Image.open(file).convert("RGB")
-                x_raw = cv2.resize(np.array(img), (512, 512))
-                x_tensor = torch.tensor(x_raw.transpose(2, 0, 1)).float().unsqueeze(0) / 255.0
+                img = np.array(img)
+                
+                h, w, c = img.shape
+                pad_h = (32 - h % 32) % 32
+                pad_w = (32 - w % 32) % 32
+                
+                img_padded = cv2.copyMakeBorder(img, 0, pad_h, 0, pad_w, cv2.BORDER_CONSTANT, value=[0,0,0])
+                
+                x_tensor = torch.tensor(img_padded.transpose(2, 0, 1)).float().unsqueeze(0) / 255.0
                 
                 with torch.no_grad():
                     pred = torch.sigmoid(model(x_tensor)).cpu().squeeze().numpy()
                 
+                pred = pred[:h, :w]
+                
                 heatmap = cv2.applyColorMap((pred * 255).astype(np.uint8), cv2.COLORMAP_INFERNO)
                 heatmap = cv2.cvtColor(heatmap, cv2.COLOR_BGR2RGB)
-                overlay = cv2.addWeighted(x_raw, 0.6, heatmap, 0.4, 0)
+                overlay = cv2.addWeighted(img, 0.6, heatmap, 0.4, 0)
                 
                 st.session_state.gv_res = {
-                    "overlay": overlay, "mask": heatmap, "input": x_raw,
+                    "overlay": overlay, "mask": heatmap, "input": img,
                     "score": np.mean(pred > 0.45) * 100
                 }
                 st.rerun() 
@@ -248,8 +257,6 @@ if "gv_res" in st.session_state:
         st.download_button(label=" ", data=buf.getvalue(), file_name="greenview_analysis.zip", mime="application/zip")
 
     st.metric("Canopy Coverage", f"{st.session_state.gv_res['score']:.1f}%")
-    
-    
     
     r1, r2, r3 = st.columns(3)
     r1.image(st.session_state.gv_res["input"], caption="Source Image")
