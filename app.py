@@ -49,7 +49,7 @@ components.html(
 @st.cache_resource
 def load_engine():
     model = smp.UnetPlusPlus("resnet34", encoder_weights=None, in_channels=3, classes=1)
-    model.load_state_dict(torch.load("summit_final_model.pth", map_location="cpu"))
+    model.load_state_dict(torch.load("models/final_model.pth", map_location="cpu"))
     model.eval()
     return model
 
