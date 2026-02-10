@@ -3,6 +3,8 @@
 Autonomous urban vegetation segmentation from RGB satellite images (no NIR or NDVI needed)
 
 Live demo → [Hugging Face Space](https://huggingface.co/spaces/As-im/GreenView-AI)
+### Dashboard View  
+![Dashboard Screenshot](screenshots/dashboard.png)
 
 This project detects trees, shrubs, and green areas in urban Indian settings using only standard RGB satellite images (like Google Earth screenshots). It tackles cases where simple color detection fails.
 
@@ -40,14 +42,12 @@ Output: Confidence heatmap (warm colors = high vegetation probability), not bina
 
 Why manual upload? Avoids API inconsistencies and gives control over exact imagery.
 
-[Dashboard Screenshot Placeholder]  
-![Dashboard Screenshot](path/to/dashboard_screenshot.png)
+### Result Example
+![Result Screenshot](screenshots/test.png)
 
-[Result Screenshot Placeholder]  
-![Result Screenshot](path/to/result_screenshot.png)
-
-[Another Screenshot Placeholder if needed]  
-![Extra Screenshot](path/to/extra_screenshot.png)
+What I Learned
+-Domain adaptation with small targeted data gives noticeable gains.
+-Visual checks showed model outperforming LoveDA labels in some cases.
 
 ### How to Run Locally
 ```bash
@@ -55,7 +55,3 @@ git clone https://github.com/Asim-dev-web/GreenView-AI.git
 cd GreenView-AI
 pip install -r requirements.txt
 streamlit run app.py
-
-What I Learned
--Domain adaptation with small targeted data gives noticeable gains.
--Visual checks showed model outperforming LoveDA labels in some cases.
