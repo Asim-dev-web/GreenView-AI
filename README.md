@@ -32,7 +32,7 @@ Raw log → [results/raw_training_log.txt](results/raw_training_log.txt)
 
 Key: Delhi val IoU improved from ~0.43 to 0.6412 after fine-tuning. LoveDA val fluctuated around 0.4 due to mislabeling - model often generated better masks than ground truth (detected missed trees).
 
-### How to Use the Demo
+## How to Use the Demo
 1. Open the app.
 2. Use the map to find an area.
 3. Take a screenshot.
@@ -46,6 +46,7 @@ Why manual upload? Avoids API inconsistencies and gives control over exact image
 ![Result Screenshot](screenshots/test.png)
 
 What I Learned
+
 -Domain adaptation with small targeted data gives noticeable gains.
 -Visual checks showed model outperforming LoveDA labels in some cases.
 
